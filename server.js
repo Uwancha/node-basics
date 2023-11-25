@@ -1,6 +1,56 @@
-const http = require('http');
+const express = require('express');
 const fs = require('fs');
 
+const app = express();
+
+app.get('/', (req, res) => {
+    fs.readFile("./pages/index.html", (err, data) => {
+        if (err) {
+            console.log(err)
+            res.end();
+        } else {
+            res.end(data)
+        }
+    })
+})
+
+app.get('/about', (req, res) => {
+    fs.readFile("./pages/about.html", (err, data) => {
+        if (err) {
+            console.log(err)
+            res.end();
+        } else {
+            res.end(data)
+        }
+    })
+})
+
+app.get('/contact', (req, res) => {
+    fs.readFile("./pages/contact.html", (err, data) => {
+        if (err) {
+            console.log(err)
+            res.end();
+        } else {
+            res.end(data)
+        }
+    })
+})
+
+app.get('*', (req, res) => {
+    fs.readFile('./pages/404.html', (err, data) => {
+      if (err) {
+        console.log(err);
+        res.end();
+      } else {
+        res.statusCode = 404;  
+        res.end(data);
+      }
+    });
+});
+
+
+// The old one without express
+/* 
 const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/html');
     
@@ -34,7 +84,6 @@ const server = http.createServer((req, res) => {
     })
     
 })
+*/
 
-server.listen(3000, 'localhost', () => {
-    console.log('Listening to port');
-})
+app.listen(3000) 
